@@ -9,7 +9,7 @@
             </el-tab-pane>
             <el-tab-pane label="上传">
                 <Upload
-                    :data = uploadData
+                    :data = uploadData  
                     :action="'#'"
                     @select="useImage"
                     @remove="removeImage"

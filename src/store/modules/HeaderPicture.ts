@@ -29,11 +29,17 @@ export const HeaderPicture: Module<IGlobalState,IHeaderPictureState> = {
     },
     actions:{
 
+
     }
 }
 
 /** 进一步封装 */
 export default function HeaderPictureApi() {
     const store = useStore();
-    // store.getters
+    /** 获取常用图片 */
+    
+    /** 获取上传图片 */
+    /**  */
 }
+
+/** 常用图片项有两个图片来源，一是公共的图片库 */

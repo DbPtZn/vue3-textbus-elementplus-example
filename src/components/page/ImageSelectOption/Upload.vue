@@ -27,7 +27,9 @@ import type { UploadFile, UploadProps } from 'element-plus'
 import type { UploadUserFile } from 'element-plus'
 
 const props = defineProps<{
+  /** 初始化的图片数据 */
   data:UploadUserFile[],
+  /** 请求URL */
   action:string
 }>()
 

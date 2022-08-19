@@ -1,10 +1,10 @@
 import { Module, useStore } from "vuex"
 import { computed } from "vue"
 import { IGlobalState } from ".."
-import { getHeaderPicture } from "@/api/http"
+import { getSignboard } from "@/api/http"
 
 /** 题头图状态 */
-export interface IHeaderPictureState {
+export interface ISignboardState {
     /** 图片地址 */
     src: String
     /** 图片偏移值 */
@@ -12,13 +12,13 @@ export interface IHeaderPictureState {
     /** 图片渲染状态 */
     renderStatus: Boolean
 }
-const state:IHeaderPictureState = {
+const state:ISignboardState = {
     src: 'undefined',
     offset: NaN,
     renderStatus: false
 }
 
-export const HeaderPicture: Module<IGlobalState,IHeaderPictureState> = {
+export const Signboard: Module<IGlobalState,ISignboardState> = {
     namespaced:true,
     state,
     getters:{
@@ -34,7 +34,7 @@ export const HeaderPicture: Module<IGlobalState,IHeaderPictureState> = {
 }
 
 /** 进一步封装 */
-export default function HeaderPictureApi() {
+export default function SignboardApi() {
     const store = useStore();
     /** 获取常用图片 */
     

@@ -1,5 +1,5 @@
 import { createStore } from "vuex";
-import { HeaderPicture } from "./modules/HeaderPicture";
+import { Signboard } from "./modules/Signboard";
 export interface IGlobalState {
 
 }
@@ -9,6 +9,6 @@ export default createStore({
   // mutations: {},
   // actions: {},
   modules: {
-    HeaderPicture
+    Signboard
   },
 });

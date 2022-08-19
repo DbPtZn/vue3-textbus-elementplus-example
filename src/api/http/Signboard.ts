@@ -1,5 +1,5 @@
 import axios from "axios"
 
-export function getHeaderPicture<T>() {
+export function getSignboard<T>() {
     return axios.get<T>('/')
 }

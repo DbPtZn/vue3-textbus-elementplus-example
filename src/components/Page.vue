@@ -1,15 +1,15 @@
 <template>
   <div class="page">
-    <HeaderPicture
+    <Signboard
       :src="imgSrc"
       :render-status="true"
       @offset-modify="(offset: any) => offset"
-      @change-picture="dialogVisibleOn"
+      @change-image="dialogVisibleOn"
     />
     <ImageSelectDialog
       :model-value="dialogVisible"
       @dialog-close="dialogVisibleOff"
-      @apply="applyToHeaderPicture"
+      @apply="applyToSignboard"
 
     />
     <div class="layout">
@@ -23,12 +23,12 @@
 
 import RichEditor from './page/RichEditor.vue'
 import ArticleTitle from './page/ArticleTitle.vue'
-import HeaderPicture from './page/HeaderPicture.vue'
-import ImageSelectDialog from './page/ImageSelectDialog.vue'
+import Signboard from './page/Signboard.vue'
+import ImageSelectDialog from './page/ImageSelectOption/ImageSelectDialog.vue'
 import { ref } from 'vue'
 
 
-let dialogVisible = ref(false)
+let dialogVisible = ref(true)
 const dialogVisibleOn = () => {
   dialogVisible.value = true
 }
@@ -38,7 +38,7 @@ const dialogVisibleOff = () => {
 
 let imgSrc = ref('https://images.pexels.com/photos/269583/pexels-photo-269583.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')
 /** 应用题头图 */
-const applyToHeaderPicture = (src:string) => {
+const applyToSignboard = (src:string) => {
     imgSrc.value = src
 }
 </script>

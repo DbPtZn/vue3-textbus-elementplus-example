@@ -1,5 +1,5 @@
 <template>
-    <div class="header-picture">
+    <div class="signboard">
         <img 
             :src="src?src:defaultIMG" 
             alt="图片加载中..."
@@ -23,9 +23,9 @@
                 <button class="btn btn-status" @click="cancel();adjustOff()">取消</button>
             </div>
         </div>
-        <!-- 移除题头图状态下显示的UI -->
-        <div class="create-header-picture" v-if="!renderStatus" @click="show">
-            <span>插入题头图</span>
+        <!-- 移除图片状态下显示的UI -->
+        <div class="create-signboard" v-if="!renderStatus" @click="show">
+            <span>插入图片</span>
         </div>
     </div>
 </template>
@@ -56,7 +56,7 @@ setup(props,{emit}){
 
     const methods = {
         change:() => {
-            emit('changePicture')
+            emit('changeImage')
         },
         adjustOn:() => {
             adjustModel.value = true
@@ -127,7 +127,7 @@ setup(props,{emit}){
 </script>
 
 <style lang="less" scoped>
-.header-picture {
+.signboard {
     width: 100%;
     position: relative;
     padding: 0;
@@ -147,7 +147,7 @@ img {
     object-position: center;
     object-fit: cover;
     width: 100%;
-    height: 300px;  //题头图高度
+    height: 300px;  //招牌高度
 }
 
 .btn-group {
@@ -176,7 +176,7 @@ img {
     }
 }
 
-.create-header-picture {
+.create-signboard {
     width: 100%;
     height: 96px;
     display: flex;

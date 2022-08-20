@@ -10,7 +10,7 @@
       :model-value="dialogVisible"
       @dialog-close="dialogVisibleOff"
       @apply="applyToSignboard"
-
+      :data="data"
     />
     <div class="layout">
       <ArticleTitle/>
@@ -41,6 +41,36 @@ let imgSrc = ref('https://images.pexels.com/photos/269583/pexels-photo-269583.jp
 const applyToSignboard = (src:string) => {
     imgSrc.value = src
 }
+
+
+const data = [
+        {
+            title: 'Tab 1',
+            name: '1',
+            content: [
+                {
+                name: 'food.jpeg',
+                url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
+                },
+                {
+                name: 'food.jpeg',
+                url: 'https://images.pexels.com/photos/10402422/pexels-photo-10402422.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
+                }
+            ],
+        },
+        {
+            title: 'Tab 2',
+            name: '2',
+            content: [
+                {
+                name: 'food.jpeg',
+                url: 'https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg?auto=compress&cs=tinysrgb&w=1600',
+                }
+            ],
+        },
+]
+
+
 </script>
 
 <style lang="less" scoped>

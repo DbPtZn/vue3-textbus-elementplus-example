@@ -1,8 +1,8 @@
 <template>
   <el-upload
     v-model:file-list="fileList"
-    :action="action"
     list-type="picture-card"
+    :action="action"
     :auto-upload="false"
   >
     <template #trigger>
@@ -23,7 +23,7 @@
 
 import { ref } from 'vue'
 import { Plus, Close } from '@element-plus/icons-vue'
-import type { UploadFile, UploadProps } from 'element-plus'
+import type { UploadFile } from 'element-plus'
 import type { UploadUserFile } from 'element-plus'
 
 const props = defineProps<{

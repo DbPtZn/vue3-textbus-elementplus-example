@@ -38,23 +38,35 @@ import type { PropType } from 'vue'
 import Upload from './Upload.vue'
 import Label from './label.vue'
 import { UploadFile } from 'element-plus'
+import axios from 'axios'
 
 interface content {
-    name:string
-    url:string
+    name: string
+    url: string
 }
 interface Tab {
+    _id?: string
     title: string,
     name: string,
     content: content[],
 }
 
 export default defineComponent({
-    emits:['dialogClose','apply'],
+    emits:['dialogClose','apply','rename',],
     props:{
         data:{
             type: Object as PropType<Tab[]>,
             default:[]
+        },
+        /** 新增标签页请求地址  数据：`${++tabIndex}` 返回：新标签页id */
+        addTabURI:{
+            type:String,
+            default:"#"
+        },
+        /** 移除标签页请求地址  数据：标签页id  返回：成功/失败 */
+        removeTabURI:{
+            type:String,
+            default:"#"
         }
     },
     components:{
@@ -66,20 +78,34 @@ export default defineComponent({
         const closable = ref(true)  //标签页关闭按钮
         const editableTabsValue = ref('1')
 
+        const removeTabId = ref('')
+
         /** 初始化数据  */
         const editableTabs:Ref<Tab[]> = ref(props.data)
 
         /** 增/删标签页 */
-        const handleTabsEdit = (targetName: string, action: 'remove' | 'add') => {
+        const handleTabsEdit = async (targetName: string, action: 'remove' | 'add') => {
             if (action === 'add') {
                 const newTabName = `${++tabIndex}`
+                /** 请求新建标签页 */
+                const res = await axios.post(props.addTabURI,{name:newTabName})
+
                 editableTabs.value.push({
-                title: 'New Tab',
+                _id:res.data._id,
+                title: '新标签',
                 name: newTabName,
                 content: [],
                 })
                 editableTabsValue.value = newTabName
             } else if (action === 'remove') {
+                /** 请求删除标签页 */
+                const _id = props.data[Number(targetName)-1]._id
+                const res = await axios.delete(props.removeTabURI+_id)
+                if(!res.data) {
+                    console.log(res.data) 
+                    return
+                }
+
                 const tabs = editableTabs.value
                 let activeName = editableTabsValue.value
                 if (activeName === targetName) {
@@ -98,10 +124,11 @@ export default defineComponent({
         }
         /** 标签页重命名 */
         const rename = (newName:any) => {
-            console.log(newName)
+            // console.log(newName)
+            emit('rename',{newName,})
         }
 
-         /** 使用图片 */
+         /** 使用图片：*/
         const useImage = (src:string) => {
             emit('apply',src)
         }
@@ -118,7 +145,8 @@ export default defineComponent({
             handleTabsEdit,
             editableTabs,
             editableTabsValue,
-            closable
+            closable,
+            removeTabId
         }
     }
 })

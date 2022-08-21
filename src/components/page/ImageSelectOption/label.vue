@@ -18,7 +18,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 const prop = defineProps({ content:String })
-const emit = defineEmits(['rename','input'])
+const emit = defineEmits(['rename','input','blur'])
 const inputRef = ref()
 const inputVisible = ref(false)
 
@@ -31,6 +31,7 @@ const toInput = () => {
 const confirm = () => {
     inputVisible.value = false
     emit('rename',inputValue)
+    emit('blur')
 }
 </script>
 

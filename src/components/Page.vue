@@ -11,6 +11,8 @@
       @dialog-close="dialogVisibleOff"
       @apply="applyToSignboard"
       :data="data"
+      :add-tab-u-r-i="'#'"
+      :remove-tab-u-r-i="'#'"
     />
     <div class="layout">
       <ArticleTitle/>

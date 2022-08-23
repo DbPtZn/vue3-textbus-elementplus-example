@@ -32,7 +32,7 @@ const props = defineProps<{
   /** 请求URL */
   action:string
 }>()
-
+console.log(props.data)
 const fileList = ref<UploadUserFile[]>(
   props.data
 )

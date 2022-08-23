@@ -40,7 +40,6 @@ import Upload from './Upload.vue'
 import Label from './Label.vue'
 import { UploadFile } from 'element-plus'
 import axios from 'axios'
-
 interface content {
     name: string
     url: string
@@ -51,62 +50,84 @@ interface Tab {
     name: string,
     content: content[],
 }
-
 export default defineComponent({
-    emits:['dialogClose','apply','rename',],
+    emits:['dialogClose','apply'],
     props:{
-        data:{
-            type: Object as PropType<Tab[]>,
-            default:[]
-        },
-        /** 新增标签页请求地址  数据：`${++tabIndex}` 返回：新标签页id */
-        addTabURI:{
-            type:String,
-            default:"#"
-        },
-        /** 移除标签页请求地址  数据：标签页id  返回：成功/失败 */
-        removeTabURI:{
-            type:String,
-            default:"#"
-        }
+        // data:{
+        //     type: Object as PropType<Tab[]>,
+        //     default:[]
+        // },
+        // /** 新增标签页请求地址  数据：`${++tabIndex}` 返回：新标签页id */
+        // addTabURI:{
+        //     type:String,
+        //     default:"#"
+        // },
+        // /** 移除标签页请求地址  数据：标签页id  返回：成功/失败 */
+        // removeTabURI:{
+        //     type:String,
+        //     default:"#"
+        // }
     },
     components:{
         Upload, Label
     },
     setup(props,{emit}){
-
-        let tabIndex = props.data ? props.data.length : 0
+        const data:Tab[] = [
+        {
+            _id:'first',
+            title: 'Tab 1',
+            name: '1',
+            content: [
+                {
+                name: 'food.jpeg',
+                url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
+                },
+                {
+                name: 'food.jpeg',
+                url: 'https://images.pexels.com/photos/10402422/pexels-photo-10402422.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
+                }
+            ],
+        },
+        {
+            _id:'second',
+            title: 'Tab 2',
+            name: '2',
+            content: [
+                {
+                name: 'food.jpeg',
+                url: 'https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg?auto=compress&cs=tinysrgb&w=1600',
+                }
+            ],
+        },
+]
+        let tabIndex = data ? data.length : 0
         const closable = ref(true)  //标签页关闭按钮
         const editableTabsValue = ref('1')
-
-        const removeTabId = ref('')
-
+        // const removeTabId = ref('')
         /** 初始化数据  */
-        const editableTabs:Ref<Tab[]> = ref(props.data)
-
+        const editableTabs:Ref<Tab[]> = ref(data)
         /** 增/删标签页 */
-        const handleTabsEdit = async (targetName: string, action: 'remove' | 'add') => {
+        const handleTabsEdit = (targetName: string, action: 'remove' | 'add') => {
             if (action === 'add') {
                 const newTabName = `${++tabIndex}`
                 /** 请求新建标签页 */
-                const res = await axios.post(props.addTabURI,{name:newTabName})
-
+                // const res = await axios.post(props.addTabURI,{name:newTabName})
                 editableTabs.value.push({
-                _id:res.data._id,
+                _id:'res.data._id',
                 title: '新标签',
                 name: newTabName,
                 content: [],
                 })
                 editableTabsValue.value = newTabName
             } else if (action === 'remove') {
+                if (!confirm("确定要删除该标签吗?")) return
                 /** 请求删除标签页 */
-                const _id = props.data[Number(targetName)-1]._id
-                const res = await axios.delete(props.removeTabURI+_id)
-                if(!res.data) {
-                    console.log(res.data) 
-                    return
-                }
-
+                // const _id = props.data[Number(targetName)-1]._id
+                // const res = await axios.delete(props.removeTabURI+_id)
+                // if(!res.data) {
+                //     console.log(res.data) 
+                //     return
+                // }
                 const tabs = editableTabs.value
                 let activeName = editableTabsValue.value
                 if (activeName === targetName) {
@@ -125,9 +146,9 @@ export default defineComponent({
         }
         /** 标签页重命名 */
         const rename = (label:string,_id:string) => {
-            emit('rename',{label,_id})
+            console.log("重命名")
+            // emit('rename',{label,_id})
         }
-
          /** 使用图片：*/
         const useImage = (src:string) => {
             emit('apply',src)
@@ -137,7 +158,6 @@ export default defineComponent({
             console.log("删除图片")
             console.log(file)
         }
-
         return {
             rename,
             useImage,
@@ -146,10 +166,12 @@ export default defineComponent({
             editableTabs,
             editableTabsValue,
             closable,
-            removeTabId
+            // removeTabId
         }
     }
 })
+
+
 </script>
 
 <style lang="less" scoped>

@@ -1,7 +1,7 @@
 <template>
     <div class="signboard">
         <img 
-            :src="src?src:defaultIMG" 
+            :src="imgSrc" 
             alt="图片加载中..."
             :style="{'object-position':'center'+ ' ' + (offset + '%'),cursor: cursorModel}"
             v-if="renderStatus"
@@ -28,12 +28,21 @@
             <span>插入图片</span>
         </div>
     </div>
+    <ImageSelectDialog
+      :model-value="dialogVisible"
+      @dialog-close="dialogVisibleOff"
+      @apply="applyToSignboard"
+    />
 </template>
 
 <script lang="ts">
 import { defineComponent, Ref, ref } from 'vue'
+import ImageSelectDialog from './ImageSelectOption/ImageSelectDialog.vue'
 export default defineComponent({
-
+components:{
+    ImageSelectDialog
+},
+emits:['offset-modify'],
 props: {
     /** 图片地址 */
     src: String,
@@ -43,11 +52,21 @@ props: {
     renderStatus: Boolean
 },
 setup(props,{emit}){
+    let dialogVisible = ref(true)
+    const dialogVisibleOn = () => {
+        dialogVisible.value = true
+    }
+    const dialogVisibleOff = () => {
+        dialogVisible.value = false
+    }
+    const applyToSignboard = (src:string) => {
+        imgSrc.value = src
+    }
     let offset:Ref<number> = ref(props.offset ? props.offset : 50)
     let renderStatus:Ref<boolean> = ref(props.renderStatus)
     /** 设置默认图片 */
     const defaultIMG:Ref<string> = ref('https://images.pexels.com/photos/36717/amazing-animal-beautiful-beautifull.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')
-
+    const imgSrc = ref(props.src)
 
     /** 动作 */
     let adjustModel:Ref<boolean> = ref(false)   //调整模式的开关
@@ -56,7 +75,8 @@ setup(props,{emit}){
 
     const methods = {
         change:() => {
-            emit('changeImage')
+            dialogVisibleOn()
+            // emit('changeImage')
         },
         adjustOn:() => {
             adjustModel.value = true
@@ -73,7 +93,6 @@ setup(props,{emit}){
             renderStatus.value = true
         },
         save:() => {
-            // console.log(offset.value)
             emit('offset-modify',offset.value)
         },
         cancel:() => {
@@ -113,11 +132,15 @@ setup(props,{emit}){
     }
 
     return {
+        dialogVisible,
+        imgSrc,
         offset,
         renderStatus,
         defaultIMG,
         adjustModel,
         cursorModel,
+        applyToSignboard,
+        dialogVisibleOff,
         ...imgActions,
         ...methods
     }

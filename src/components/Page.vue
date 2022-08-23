@@ -47,6 +47,7 @@ const applyToSignboard = (src:string) => {
 
 const data = [
         {
+            _id:'first',
             title: 'Tab 1',
             name: '1',
             content: [
@@ -61,6 +62,7 @@ const data = [
             ],
         },
         {
+            _id:'second',
             title: 'Tab 2',
             name: '2',
             content: [

@@ -17,12 +17,12 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-const prop = defineProps({ content:String })
+const props = defineProps({ content:String, _id:String })
 const emit = defineEmits(['rename','input','blur'])
 const inputRef = ref()
 const inputVisible = ref(false)
 
-const inputValue = ref(prop.content)
+const inputValue = ref(props.content)
 const toInput = () => {
     inputVisible.value = true
     inputRef.value.focus()
@@ -30,7 +30,9 @@ const toInput = () => {
 }
 const confirm = () => {
     inputVisible.value = false
-    emit('rename',inputValue)
+    if(props.content != inputValue.value){ //脏值检测
+        emit('rename',{label:inputValue.value},{_id:props._id})
+    }
     emit('blur')
 }
 </script>

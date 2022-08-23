@@ -14,7 +14,8 @@
                 :name="item.name"
             >
             <template #label >
-                <Label 
+                <Label
+                    :_id="item._id" 
                     :content="item.title" 
                     @input="closable = false"
                     @blur="closable = true"
@@ -36,7 +37,7 @@
 import { defineComponent, Ref, ref } from 'vue'
 import type { PropType } from 'vue'
 import Upload from './Upload.vue'
-import Label from './label.vue'
+import Label from './Label.vue'
 import { UploadFile } from 'element-plus'
 import axios from 'axios'
 
@@ -123,9 +124,10 @@ export default defineComponent({
             }
         }
         /** 标签页重命名 */
-        const rename = (newName:any) => {
-            // console.log(newName)
-            emit('rename',{newName,})
+        const rename = (label:string,_id:string) => {
+            console.log(label)
+            console.log(_id)
+            emit('rename',{label,_id})
         }
 
          /** 使用图片：*/

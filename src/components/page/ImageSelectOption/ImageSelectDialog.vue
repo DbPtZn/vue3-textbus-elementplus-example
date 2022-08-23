@@ -125,8 +125,6 @@ export default defineComponent({
         }
         /** 标签页重命名 */
         const rename = (label:string,_id:string) => {
-            console.log(label)
-            console.log(_id)
             emit('rename',{label,_id})
         }
 
@@ -159,3 +157,14 @@ export default defineComponent({
     user-select: none
 }
 </style>
+
+/** 请求动作：
+1.创建新标签  √
+2.删除标签    √
+3.标签改名    √
+4.标签位置调换
+5.标签——图片数据获取请求  √
+6.标签——图片添加   √
+7.标签——图片删除   √
+8.使用图片 √
+ */

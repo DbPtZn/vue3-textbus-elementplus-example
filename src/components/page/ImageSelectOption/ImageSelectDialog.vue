@@ -35,21 +35,21 @@
 
 <script lang="ts">
 import { defineComponent, Ref, ref } from 'vue'
-import type { PropType } from 'vue'
 import Upload from './Upload.vue'
 import Label from './Label.vue'
 import { UploadFile } from 'element-plus'
-import axios from 'axios'
-interface content {
+
+export interface content {
     name: string
     url: string
 }
-interface Tab {
+export interface Tab {
     _id?: string
     title: string,
     name: string,
     content: content[],
 }
+
 export default defineComponent({
     emits:['dialogClose','apply'],
     props:{
@@ -99,7 +99,7 @@ export default defineComponent({
                 }
             ],
         },
-]
+        ]
         let tabIndex = data ? data.length : 0
         const closable = ref(true)  //标签页关闭按钮
         const editableTabsValue = ref('1')
@@ -147,7 +147,6 @@ export default defineComponent({
         /** 标签页重命名 */
         const rename = (label:string,_id:string) => {
             console.log("重命名")
-            // emit('rename',{label,_id})
         }
          /** 使用图片：*/
         const useImage = (src:string) => {

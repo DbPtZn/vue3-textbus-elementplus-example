@@ -52,6 +52,8 @@ props: {
     renderStatus: Boolean
 },
 setup(props,{emit}){
+
+    /** 图片选择对话框的开关控制 */
     let dialogVisible = ref(true)
     const dialogVisibleOn = () => {
         dialogVisible.value = true
@@ -62,11 +64,13 @@ setup(props,{emit}){
     const applyToSignboard = (src:string) => {
         imgSrc.value = src
     }
+
+    /** 设置图片 */
+    const imgSrc = ref(props.src)
     let offset:Ref<number> = ref(props.offset ? props.offset : 50)
     let renderStatus:Ref<boolean> = ref(props.renderStatus)
-    /** 设置默认图片 */
-    const defaultIMG:Ref<string> = ref('https://images.pexels.com/photos/36717/amazing-animal-beautiful-beautifull.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')
-    const imgSrc = ref(props.src)
+    
+    
 
     /** 动作 */
     let adjustModel:Ref<boolean> = ref(false)   //调整模式的开关
@@ -76,7 +80,6 @@ setup(props,{emit}){
     const methods = {
         change:() => {
             dialogVisibleOn()
-            // emit('changeImage')
         },
         adjustOn:() => {
             adjustModel.value = true
@@ -136,7 +139,6 @@ setup(props,{emit}){
         imgSrc,
         offset,
         renderStatus,
-        defaultIMG,
         adjustModel,
         cursorModel,
         applyToSignboard,

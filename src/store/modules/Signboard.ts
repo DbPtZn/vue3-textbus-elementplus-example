@@ -18,7 +18,7 @@ const state:ISignboardState = {
     renderStatus: false
 }
 
-export const Signboard: Module<IGlobalState,ISignboardState> = {
+export const Signboard: Module<ISignboardState,IGlobalState> = {
     namespaced:true,
     state,
     getters:{

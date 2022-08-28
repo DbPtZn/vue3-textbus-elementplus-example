@@ -16,7 +16,7 @@
             <template #label >
                 <Label
                     :_id="item._id" 
-                    :content="item.title" 
+                    :content="item.label" 
                     @input="closable = false"
                     @blur="closable = true"
                     @rename="rename"
@@ -38,14 +38,15 @@ import { defineComponent, Ref, ref } from 'vue'
 import Upload from './Upload.vue'
 import Label from './Label.vue'
 import { UploadFile } from 'element-plus'
+import { SignboardLibraryApi } from '@/store/modules/SignboardLibrary'
 
 export interface content {
-    name: string
+    title: string
     url: string
 }
 export interface Tab {
     _id?: string
-    title: string,
+    label: string,
     name: string,
     content: content[],
 }
@@ -75,26 +76,26 @@ export default defineComponent({
         const data:Tab[] = [
         {
             _id:'first',
-            title: 'Tab 1',
+            label: 'Tab 1',
             name: '1',
             content: [
                 {
-                name: 'food.jpeg',
+                title: 'food.jpeg',
                 url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100',
                 },
                 {
-                name: 'food.jpeg',
+                title: 'food.jpeg',
                 url: 'https://images.pexels.com/photos/10402422/pexels-photo-10402422.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load',
                 }
             ],
         },
         {
             _id:'second',
-            title: 'Tab 2',
+            label: 'Tab 2',
             name: '2',
             content: [
                 {
-                name: 'food.jpeg',
+                title: 'food.jpeg',
                 url: 'https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg?auto=compress&cs=tinysrgb&w=1600',
                 }
             ],
@@ -105,16 +106,19 @@ export default defineComponent({
         const editableTabsValue = ref('1')
         // const removeTabId = ref('')
         /** 初始化数据  */
+        const _SignboardLibraryApi = SignboardLibraryApi()
         const editableTabs:Ref<Tab[]> = ref(data)
         /** 增/删标签页 */
-        const handleTabsEdit = (targetName: string, action: 'remove' | 'add') => {
+        const handleTabsEdit = async (targetName: string, action: 'remove' | 'add') => {
             if (action === 'add') {
                 const newTabName = `${++tabIndex}`
                 /** 请求新建标签页 */
                 // const res = await axios.post(props.addTabURI,{name:newTabName})
+                const _id = await _SignboardLibraryApi.create(newTabName)
+                console.log(_id)
                 editableTabs.value.push({
-                _id:'res.data._id',
-                title: '新标签',
+                _id:_id,
+                label: '新标签',
                 name: newTabName,
                 content: [],
                 })

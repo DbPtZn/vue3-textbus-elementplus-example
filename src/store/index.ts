@@ -1,19 +1,15 @@
 import { createStore } from "vuex"
-import { Signboard, ISignboardState } from "./modules/Signboard"
-import { SignboardLibrary, ISignboardLibraryState } from "./modules/SignboardLibrary"
+import { Note, INoteState } from './modules/Note'
+// import { Signboard } from "./modules/Signboard"
+// import { SignboardLibrary } from "./modules/SignboardLibrary"
+// import { SignboardLibraryList } from "./modules/SignboardLibraryList"
 
 export interface IGlobalState {
-  // SignboardState:ISignboardState,
-  // SignboardLibraryState:ISignboardLibraryState
+  INoteState:INoteState
 }
 export default createStore({
-  // state: {},
-  // getters: {},
-  // mutations: {},
-  // actions: {},
   modules: {
-    Signboard,
-    SignboardLibrary
+    Note
   },
 });
 

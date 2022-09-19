@@ -109,15 +109,15 @@ export class InlineToolbarPlugin implements Plugin {
         const nativeSelection = <globalThis.Selection>document.getSelection()
         const firstNativeRange = nativeSelection.rangeCount ? nativeSelection.getRangeAt(0) : null
         if (!nativeSelection.isCollapsed) {
-            console.log(1)
+            // console.log(1)
             if (firstNativeRange) {
-                console.log(2)
+                // console.log(2)
                 const focusNode = firstNativeRange.commonAncestorContainer;
                 if (focusNode) {
-                    console.log(3)
+                    // console.log(3)
                     const node = (focusNode.nodeType === Node.TEXT_NODE ? focusNode.parentNode : focusNode);
                     if (node) {
-                        console.log(4)
+                        // console.log(4)
                         const rect = <RangeViewPosition>bridge.getRect({
                             slot: <Slot<any>>selection.startSlot,
                             offset: <number>selection.startOffset

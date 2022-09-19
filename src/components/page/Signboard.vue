@@ -5,12 +5,13 @@
             alt="图片加载中..."
             :style="{'object-position':'center'+ ' ' + (offset + '%'),cursor: cursorModel}"
             v-if="renderStatus"
+            onerror="this.src='default.jpg'"
             draggable = "false"
             @mousedown="onMouseDown"
             @mousemove="onMouseMove"
             @mouseup="onMouseUp"
             @mouseout="onMouseOut"
-        >
+        />
         <div class="btn-group" v-if="renderStatus">
             <div v-if="!adjustModel">
                 <button class="btn btn-status" @click="change">修改</button>
@@ -28,11 +29,15 @@
             <span>插入图片</span>
         </div>
     </div>
-    <ImageSelectDialog
-      :model-value="dialogVisible"
-      @dialog-close="dialogVisibleOff"
-      @apply="applyToSignboard"
-    />
+    <Suspense>
+        <template #default>
+            <ImageSelectDialog
+                :dialogVisible="dialogVisible"
+                @dialog-close="dialogVisibleOff"
+                @apply="applyToSignboard"
+            />
+        </template>
+    </Suspense>
 </template>
 
 <script lang="ts">
@@ -42,7 +47,7 @@ export default defineComponent({
 components:{
     ImageSelectDialog
 },
-emits:['offset-modify'],
+emits:['offset-modify','image-modify','isHide'],
 props: {
     /** 图片地址 */
     src: String,
@@ -54,7 +59,7 @@ props: {
 setup(props,{emit}){
 
     /** 图片选择对话框的开关控制 */
-    let dialogVisible = ref(true)
+    let dialogVisible = ref(false)
     const dialogVisibleOn = () => {
         dialogVisible.value = true
     }
@@ -63,10 +68,12 @@ setup(props,{emit}){
     }
     const applyToSignboard = (src:string) => {
         imgSrc.value = src
+        emit('image-modify',src)
     }
 
     /** 设置图片 */
     const imgSrc = ref(props.src)
+    
     let offset:Ref<number> = ref(props.offset ? props.offset : 50)
     let renderStatus:Ref<boolean> = ref(props.renderStatus)
     
@@ -91,9 +98,11 @@ setup(props,{emit}){
         },
         hide:() => {
             renderStatus.value = false
+            emit('isHide',false)
         },
         show:() => {
             renderStatus.value = true
+            emit('isHide',true)
         },
         save:() => {
             emit('offset-modify',offset.value)

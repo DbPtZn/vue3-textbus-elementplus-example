@@ -2,12 +2,21 @@
   <div class="page">
     <Signboard
       :src="imgSrc"
-      :render-status="true"
-      @offset-modify="(offset: any) => offset"
+      :offset="offset"
+      :render-status="isRender"
+      @offset-modify="signboardOffsetModify"
+      @image-modify="signboardImgModify"
+      @is-hide="isHide"
     />
     <div class="layout">
-      <ArticleTitle/>
-      <RichEditor/>
+      <ArticleTitle
+        :value="title"
+        @input="titleInput"
+      />
+      <RichEditor
+        :value="content"
+        @input="contentInput"
+      />
     </div>
   </div>
 </template>
@@ -17,7 +26,40 @@ import RichEditor from './page/RichEditor.vue'
 import ArticleTitle from './page/ArticleTitle.vue'
 import Signboard from './page/Signboard.vue'
 import { ref } from 'vue'
-let imgSrc = ref('https://images.pexels.com/photos/269583/pexels-photo-269583.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1')
+import { isDiff, noteData } from '@/utils'
+// const emit = defineEmits(['title'])
+
+let imgSrc = ref(noteData.signboard.src)
+let offset = ref(noteData.signboard.offset)
+let isRender = ref(noteData.signboard.isRender)
+let title = ref(noteData.title)
+let content = ref(noteData.content)
+/** 招牌图片偏移值改变时触发 */
+const signboardOffsetModify = (offset: number) => {
+  console.log(offset)
+}
+/** 招牌图片改变时触发 */
+const signboardImgModify = (imgScr: string) => {
+  console.log(imgScr)
+}
+/** 招牌图片显示隐藏状态改变时触发 */
+const isHide = (status: boolean) => {
+  console.log(status)
+}
+/** 标题输入结束后触发 */
+const titleInput = (value: string) => {
+  console.log('value')
+  if(isDiff(title.value,value)){
+    console.log(value)
+  }
+}
+/** 内容输入结束后触发 */
+const contentInput = (value: string) => {
+  console.log('value')
+  if(isDiff(content.value,value)){
+    console.log(value)
+  }
+}
 
 </script>
 
